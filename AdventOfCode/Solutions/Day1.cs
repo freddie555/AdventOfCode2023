@@ -10,8 +10,7 @@ namespace AdventOfCode.Solutions
     {
         public int GetSolution()
         {
-            Console.WriteLine("Hello, World!");
-            var aocData = File.ReadAllLines("C:\\Users\\freddie.freeston\\source\\repos\\AdventOfCode\\AdventOfCode\\Solutions\\aoc_data.txt");
+            var aocData = File.ReadAllLines("C:\\Users\\freddie.freeston\\source\\repos\\AdventOfCode\\AdventOfCode\\Solutions\\day1_data.txt");
             List<int> lineTotals = new List<int>();
             List<string> digitArray = new List<string> { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
             var digitAsWordList = new List<string> { "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine" };
@@ -56,7 +55,6 @@ namespace AdventOfCode.Solutions
             }
 
             var total = lineTotals.Sum();
-            Console.WriteLine(total);
             return total;
         }
     }
