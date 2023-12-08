@@ -13,7 +13,7 @@ namespace AdventOfCode.Solutions
 
         public int GetSolution()
         {
-            var aocData = File.ReadAllLines("C:\\Users\\freddie.freeston\\source\\repos\\AdventOfCode\\AdventOfCode\\Solutions\\day2_data.txt")
+            var aocData = File.ReadAllLines("C:\\Users\\freddie.freeston\\source\\repos\\AdventOfCode\\AdventOfCode\\Solutions\\day7_data.txt")
                .ToList();
 
             var handsList = aocData.Select(x => x.Split(' ')[0]).ToList();
