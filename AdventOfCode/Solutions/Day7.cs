@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace AdventOfCode.Solutions
 {
-    internal class Day2
+    internal class Day7
     {
+        private List<char> cardValues = new List<char> { 'J', '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'Q', 'K', 'A' };
+
         public int GetSolution()
         {
             var aocData = File.ReadAllLines("C:\\Users\\freddie.freeston\\source\\repos\\AdventOfCode\\AdventOfCode\\Solutions\\day2_data.txt")
-                .ToList();
-
-            List<char> cardValues = new List<char> { '2', '3', '4', '5', '6', '7', '8', '9', 'T', 'J', 'Q', 'K', 'A' };
+               .ToList();
 
             var handsList = aocData.Select(x => x.Split(' ')[0]).ToList();
             var scoresList = aocData.Select(x => x.Split(' ')[1]).ToList();
@@ -44,6 +45,10 @@ namespace AdventOfCode.Solutions
                     (rankedMaxValue, rankedMaxOccurrences) = GetMaxOccurringValueInHand(rankedHand);
                     bool rankedIsTwoPair = false;
                     bool rankedIsFullHouse = false;
+                    if (rankedHand == "38AJ8")
+                    {
+
+                    }
                     (rankedIsTwoPair, rankedIsFullHouse) = CheckIfTwoPairOrFullHouse(rankedHand, rankedMaxValue, rankedMaxOccurrences);
 
                     if (maxOccurrences > rankedMaxOccurrences)
@@ -144,7 +149,6 @@ namespace AdventOfCode.Solutions
                 handsScores.Add(handScore);
             }
             var total = handsScores.Sum();
-            Console.WriteLine(total);
             return total;
         }
 
@@ -155,6 +159,11 @@ namespace AdventOfCode.Solutions
             if (maxOccurrences == 2 || maxOccurrences == 3)
             {
                 var strippedHand = hand.Replace(maxValue.ToString(), "");
+
+                if (hand.IndexOf('J') != -1 && maxValue != 'J')
+                {
+                    strippedHand = strippedHand.Replace("J", "");
+                }
                 char otherValue;
                 int otherOccurrences = 0;
                 (otherValue, otherOccurrences) = GetMaxOccurringValueInHand(strippedHand);
@@ -214,6 +223,39 @@ namespace AdventOfCode.Solutions
                         maxValue = cardValue;
                         maxOccurrences = 2;
                     }
+                }
+            }
+
+            var jInstances = 0;
+            var cardsChecked = 0;
+
+            while (cardsChecked < 5)
+            {
+                var jIndex = hand.IndexOf('J', cardsChecked);
+                if (jIndex != -1)
+                {
+                    jInstances++;
+                    cardsChecked = jIndex + 1;
+                }
+                else
+                {
+                    cardsChecked = 5;
+                }
+            }
+
+            if (maxValue != 'J')
+            {
+                maxOccurrences += jInstances;
+            }
+            else if(jInstances > 0)
+            {
+                var strippedHand = hand.Replace("J", "");
+                if (strippedHand.Length > 0)
+                {
+                    char otherValue;
+                    int otherOccurrences = 0;
+                    (otherValue, otherOccurrences) = GetMaxOccurringValueInHand(strippedHand);
+                    maxOccurrences = otherOccurrences + jInstances;
                 }
             }
 
