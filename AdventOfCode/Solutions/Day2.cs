@@ -12,12 +12,14 @@ namespace AdventOfCode.Solutions
         {
             var aocData = File.ReadAllLines("C:\\Users\\freddie.freeston\\source\\repos\\AdventOfCode\\AdventOfCode\\Solutions\\day2_data.txt")
                .ToList();
-            var colourLimits = new Dictionary<string, int> { { "red", 12 }, { "green", 13 }, { "blue", 14 } };
             List<int> impossibleGames = new List<int>();
+            List<int> gamePowerTotals = new List<int>();
 
             foreach (var game in aocData)
             {
                 //Game 1: 7 red, 8 blue; 6 blue, 6 red, 2 green; 2 red, 6 green, 8 blue; 9 green, 2 red, 4 blue; 6 blue, 4 green
+                var colourAmountsNeeded = new Dictionary<string, int> { { "red", 0 }, { "green", 0 }, { "blue", 0 } };
+
                 var colonIndex = game.IndexOf(':');
                 var numberIndex = game.IndexOf(" ") + 1;
                 var gameNumber = Convert.ToInt32(game.Substring(numberIndex, colonIndex - numberIndex));
@@ -33,23 +35,32 @@ namespace AdventOfCode.Solutions
                         var splitColourCount = colourCount.Split(" ");
                         var count = Convert.ToInt32(splitColourCount[0]);
                         var colour = splitColourCount[1];
-                        var colourLimit = colourLimits[colour];
-                        if (count > colourLimit)
+                        var neededColourCount = colourAmountsNeeded[colour];
+                        if (count > neededColourCount)
                         {
-                            impossibleGames.Add(gameNumber);
+                            colourAmountsNeeded[colour] = count;
                         }
                     });
                 });
-            }
-            int total = 0;
-            for (var i = 1; i < 101; i++)
-            {
-                if (!impossibleGames.Contains(i))
+
+                var coloursNeededPower = 1;
+
+                foreach (var colour in colourAmountsNeeded.Select(x => x.Value))
                 {
-                    total += i;
+                    coloursNeededPower = colour * coloursNeededPower;
                 }
+                gamePowerTotals.Add(coloursNeededPower);
             }
-            Console.WriteLine(total);
+            //int total = 0;
+            //for (var i = 1; i < 101; i++)
+            //{
+            //    if (!impossibleGames.Contains(i))
+            //    {
+            //        total += i;
+            //    }
+            //}
+            var total = gamePowerTotals.Sum();
+            Console.WriteLine(gamePowerTotals.Sum());
             return total;
         }
     }
