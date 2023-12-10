@@ -60,7 +60,6 @@ namespace AdventOfCode.Solutions
             //    }
             //}
             var total = gamePowerTotals.Sum();
-            Console.WriteLine(gamePowerTotals.Sum());
             return total;
         }
     }
